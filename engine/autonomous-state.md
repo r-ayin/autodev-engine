@@ -7,7 +7,9 @@ metadata:
 
 # 自主决策引擎状态
 
-<!-- ENGINE_VERSION: 1.0 -->
+<!-- ENGINE_VERSION: 2.0 -->
+<!-- ISOLATION_MODE: agent_subprocess -->
+<!-- COLD_START: enabled -->
 <!-- LAST_ACTIVE: 2026-06-15T00:00:00Z -->
 <!-- ACTIVE_PROJECT: infrastructure -->
 <!-- CURRENT_PHASE: observe -->

@@ -5,7 +5,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform: Windows+WSL](https://img.shields.io/badge/Platform-Windows%20%2B%20WSL-lightgrey)]()
 
-一个模块化的、可安装的框架，将 Claude Code 从被动助手转变为自主开发副驾驶。通过 **观察→匹配→研究→决策→行动→报告→学习** 的七阶段循环，持续驱动项目前进。
+一个模块化的、可安装的框架，将 Claude Code 从被动助手转变为自主开发副驾驶。
+
+> **v2.0 架构升级：决策引擎运行在独立子 Agent 中，零上下文污染。** 详见 [ARCHITECTURE.md](ARCHITECTURE.md)。
 
 ---
 
@@ -28,7 +30,7 @@
 L0: 用户界面 ───── SSH / Termux
 L1: Claude Code ──── 运行时
 L2: Hook 层 ─────── 事件驱动（6 个 Python Hook）
-L3: Skill 层 ────── 按需调用（3 个自定义 Skill）
+L3: Skill 层 ────── 按需调用（3 个自定义 Skill + 1 个独立子Agent提示词）
 L4: Cron 心跳 ────── 内部定时器（7min + 60min）
 L5: 外部看门狗 ──── WSL cron 5min（独立进程）
 ```
