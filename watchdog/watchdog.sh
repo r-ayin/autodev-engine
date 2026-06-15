@@ -6,14 +6,13 @@
 # 2026 共识: "Agent 无法抓住自己的生命线"——这是线外的眼睛。
 #
 # 部署 (WSL Ubuntu 中执行一次):
-#   chmod +x /path/to/your/project/.claude/watchdog.sh
+#   chmod +x /mnt/e/x-tool/.claude/watchdog.sh
 #   crontab -e
-#   添加: */5 * * * * /path/to/your/project/.claude/watchdog.sh >> /tmp/x-tool-watchdog.log 2>&1
+#   添加: */5 * * * * /mnt/e/x-tool/.claude/watchdog.sh >> /tmp/x-tool-watchdog.log 2>&1
 # =============================================================================
 set -euo pipefail
 
-# Set by user to their project root (WSL path)
-PROJECT_DIR="${CLAUDE_PROJECT_DIR_WSL:-/mnt/e/x-tool}"
+PROJECT_DIR="/mnt/e/x-tool"
 CHECKPOINT_DIR="$PROJECT_DIR/.claude/checkpoints"
 LATEST="$CHECKPOINT_DIR/latest.json"
 HEARTBEAT_FILE="$PROJECT_DIR/.claude/.watchdog_heartbeat"
@@ -51,6 +50,11 @@ fi
 
 NOW_EPOCH=$(date +%s)
 CP_EPOCH=$(date -d "$CHECKPOINT_TS" +%s 2>/dev/null || echo 0)
+# 防止时间戳解析失败导致误报（epoch=0 会被误判为僵死）
+if [ "$CP_EPOCH" -eq 0 ]; then
+    echo "[$(date -Iseconds)] WATCHDOG: 无法解析时间戳: $CHECKPOINT_TS"
+    exit 0
+fi
 AGE_SECONDS=$((NOW_EPOCH - CP_EPOCH))
 AGE_MINUTES=$((AGE_SECONDS / 60))
 

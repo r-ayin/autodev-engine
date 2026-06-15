@@ -104,10 +104,15 @@ prompt: |
 子代理返回后:
   1. 检查返回中是否包含 <decision> 标签
   2. 提取 action_level 和 decision_summary
-  3. 如果 action_level >= ACT_NOTIFY:
-     → 执行子代理计划的具体行动（子代理不能直接调用工具修改项目文件）
-     → 解释: 子代理负责"研判"，主会话负责"执行"
+  3. 根据 action_level 决定主会话行为:
+     - OBSERVE → 主会话写 case JSON + 更新 autonomous-state.md
+     - SUGGEST → 主会话追加到 autonomous-suggestions.md
+     - PREPARE → 主会话执行 actions_planned（运行测试、创建分支）
+     - ACT_NOTIFY/ACT_SILENT → 主会话执行全部 actions_planned + 通知
   4. 输出简洁摘要给用户
+  
+  注意: 子代理已写入 .claude/ 引擎文件（case JSON, calibration）。
+  主会话仅需执行涉及项目文件的行动和用户通知。
 ```
 
 ---
@@ -131,7 +136,7 @@ prompt: |
 
 ```
 收到 "AUTONOMOUS_HEARTBEAT L3" prompt →
-  Step 2 预检 →
+  Step 2 预检（注意：L3 跳过 GOAL_STATUS 和冷却检查！基础设施守卫不受影响）→
   Step 3 Spawn 子代理（description 设为 "L3 深度检查"）→
   子代理会执行完整研判 + 网络研究 + 模式提取 →
   Step 4 输出: "🤖 L3 @ {时间} | {发现摘要}"
@@ -176,13 +181,14 @@ prompt: |
 | 网络研究 | ✅ | ❌ |
 | 计算信心分 | ✅ | ❌ |
 | 输出决策 JSON | ✅ | ❌ |
+| 写引擎文件 (.claude/) | ✅ | ❌ |
 | 修改项目文件 | ❌ | ✅ |
 | 运行测试 | ❌ | ✅ |
 | Git 操作 | ❌ | ✅ |
 | 发送通知 | ❌ | ✅ |
 | 输出用户摘要 | ❌ | ✅ |
 
-**原则：子代理用脑子，主会话用手。**
+**原则：子代理用脑子，主会话用手。引擎文件 (.claude/) 是子代理的「笔记本」——可以自由写入。**
 
 ---
 

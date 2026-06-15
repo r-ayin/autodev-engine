@@ -5,6 +5,12 @@ import os
 import sys
 import json
 
+# Windows UTF-8 编码修复
+if sys.platform == "win32":
+    try:
+        sys.stdin.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 
 WORKSPACE_ROOT = os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd())
 SKILL_DIR = os.path.join(WORKSPACE_ROOT, ".claude", "skills", "project-protocol")
@@ -15,7 +21,11 @@ REQUIRED_FILES = ["CLAUDE.md", "PROGRESS.md", "GATES.md"]
 
 def get_project_dir(file_path: str) -> tuple:
     """从文件路径推断项目目录"""
-    rel = os.path.relpath(file_path, WORKSPACE_ROOT)
+    try:
+        rel = os.path.relpath(file_path, WORKSPACE_ROOT)
+    except ValueError:
+        # 跨驱动器路径（Windows 特有），无法计算相对路径
+        return None, None
     parts = rel.replace("\\", "/").split("/")
 
     # 跳过 .claude / node_modules 等特殊目录

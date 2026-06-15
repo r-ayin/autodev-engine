@@ -16,11 +16,11 @@
 
 ```
 STEP 0: 读取 autonomous-state.md
-  → 检查 <!-- ENGINE_GENERATION: --> 标记
+  → 检查 <!-- COLD_START_GRADUATED: --> 标记
 
-IF 标记不存在或 generation == 0:
+IF 标记不存在或值为 false:
     → 这是**冷启动**。进入 §0.2 冷启动流程。
-IF generation >= 1:
+IF 值为 true:
     → 这是**热运行**。跳过冷启动，直接进入 §1 研判框架。
 ```
 
@@ -56,7 +56,7 @@ Phase C3: 冷启动毕业检查
   ✓ decision-log.jsonl 有 >= 20 条用户交互记录
   ✓ 至少 2 个不同项目的操作记录
   ✓ calibration.json user_preferences 已填充
-  ✓ autonomous-state.md 中 <!-- ENGINE_GENERATION --> 已设为 1
+  ✓ autonomous-state.md 中 <!-- COLD_START_GRADUATED --> 已设为 true
   
   满足所有条件 → 冷启动毕业，引擎进入全功能模式。
   不满足 → 继续收集，输出冷启动进度报告。
@@ -257,7 +257,7 @@ Q5: 行动失败的代价有多大？
   "agent_id": "autodev-engine-v2",
   "timestamp": "ISO8601",
   "mode": "cold_start|hot_run",
-  "engine_generation": 0,
+  "cold_start_graduated": false,
   
   "contextualize": {
     "situation": "一句话态势",

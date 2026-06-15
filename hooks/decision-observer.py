@@ -26,7 +26,7 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-PROJECT_DIR = os.environ.get("CLAUDE_PROJECT_DIR", os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd()))
+PROJECT_DIR = os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd())
 LOG_FILE = os.path.join(PROJECT_DIR, ".claude", "decision-log.jsonl")
 STATE_FILE = os.path.join(PROJECT_DIR, ".claude", "memory", "autonomous-state.md")
 
@@ -98,10 +98,14 @@ def classify_user_input(prompt: str) -> str:
 
 def extract_project_hint(prompt: str) -> str:
     """从用户输入中提取项目名称提示"""
-    # === USER: Add your project name -> directory mappings here ===
-    # Example: {"my-feature": "my-feature-dir", "alias": "actual-dir"}
     project_map = {
-        # "example-project": "example-project-directory",
+        "wanxia": "wanxia", "晚霞": "wanxia", "小红书": "wanxia",
+        "xia": "xia", "山夏": "xia", "摄影": "xia", "约拍": "xia",
+        "moni": "moni", "股票": "moni", "量化": "moni", "因子": "moni",
+        "pachong": "pachong-master", "爬虫": "pachong-master",
+        "tender": "pachong-master", "招投标": "pachong-master", "雷达": "pachong-master",
+        "tolaria": "tolaria", "laputa": "tolaria",
+        "抖音": "douyin", "douyin": "douyin",
     }
     for key, project in project_map.items():
         if key in prompt.lower():

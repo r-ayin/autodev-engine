@@ -118,10 +118,10 @@ def build_engine_firmware():
 
 ### 强制行为（不可跳过）
 1. **每次回复末尾 → 执行 L1 内联自主检查**
-   - 读 `{PROJECT_DIR}/.claude/decision-log.jsonl` 最后 5 行
+   - 读 `E:/x-tool/.claude/decision-log.jsonl` 最后 5 行
    - 判断未完跟进 → 信心分 ≥71 直接执行（不询问用户）
    - 无事可做 → 静默，不额外输出
-2. **首条回复 → 读 `{PROJECT_DIR}/.claude/memory/autonomous-state.md` → 确认当前目标**
+2. **首条回复 → 读 `E:/x-tool/.claude/memory/autonomous-state.md` → 确认当前目标**
    - 等用户说了第一句话后才开始，不抢先
    - 目标 `achieved` → 仅报告，不行动
    - 目标 `in_progress` → 检查冷却(>3次)→按信心分行动
@@ -145,7 +145,7 @@ def build_engine_firmware():
 - 存在但 >10分钟 → ⚠️ L6 可能失活，报告用户
 - 不存在 → 🔴 L6 未启动，尝试 `wsl -d Ubuntu -- sudo service cron start` 恢复
 - 检查 `.claude/.watchdog_stale` → 存在说明上次会话异常中断
-- 检查 `.claude/.watchdog_resume_needed` → 存在说明进程已死过"""
+- 检查 `.claude/.watchdog_resume_needed` → 存在说明进程已死过
 
 ### 外部监控 (WSL watchdog)
 - `{PROJECT_DIR}/.claude/watchdog.sh` 每 5 分钟检查进程健康

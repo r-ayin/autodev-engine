@@ -83,8 +83,19 @@ def collect_recent_activity():
     activities = []
     try:
         with open(audit_log, "r", encoding="utf-8", errors="ignore") as f:
-            # 读最后 200 行找当前 session 的活动
-            lines = f.readlines()
+            # 尾部反向读取最后 200 行，避免全量加载大文件
+            f.seek(0, 2)
+            file_size = f.tell()
+            chunk_size = 8192
+            lines = []
+            pos = file_size
+            while pos > 0 and len(lines) < 200:
+                read_size = min(chunk_size, pos)
+                pos -= read_size
+                f.seek(pos)
+                chunk = f.read(read_size)
+                chunk_lines = chunk.splitlines(keepends=True)
+                lines = chunk_lines + lines
             target_lines = lines[-200:] if len(lines) > 200 else lines
 
         for line in target_lines:
