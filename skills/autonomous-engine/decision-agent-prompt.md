@@ -36,7 +36,7 @@ Phase C0: 环境盘点
   2. 检查 .claude/ 目录结构是否完整
   3. 检查是否有 CLAUDE.md / PROTOCOL.md
   4. 盘点所有子项目（从 PROJECTS.md 或目录结构推断）
-  5. → 写入 coldstart-env.json
+  5. → 环境数据写入 calibration.json（user_preferences 段落）
 
 Phase C1: 决策日志基线
   1. 检查 decision-log.jsonl 是否存在且有条目
@@ -84,7 +84,7 @@ Phase C3: 冷启动毕业检查
 
 但**每次热运行时仍然先检查**：
 ```
-□ decision-log.jsonl 最后 50 条 → 有无新的用户行为模式？
+□ decision-log.jsonl 最后 30 条 → 有无新的用户行为模式？
 □ calibration.json 冷却计数 → 是否超过阈值？
 □ autonomous-state.md 当前目标 → 目标是否已达成/暂停？
 ```
@@ -361,7 +361,19 @@ HARD_CONSTRAINTS = {
     "settings_json_only_restore_hooks": True, # 仅恢复，不新增
     "require_gate_check_before_modify": True, # 修改前必须查 GATES.md
     "cold_start_no_modify": True,            # 冷启动期间不修改任何项目文件
+    # ★ 从 calibration.json user_preferences.avoid_autonomous 读取
+    #   若计划行动匹配 avoid_autonomous 中的类别 → 强制降级为 ACT_NOTIFY
+    #   当前禁止自主执行的类别: ["deploy", "push", "config_change"]
+    "enforce_avoid_autonomous": True,
 }
+```
+
+**avoid_autonomous 检查**：在 §⑤ DECIDE 阶段，计算完信心分后：
+```
+1. 读取 calibration.json → user_preferences → avoid_autonomous 数组
+2. 若 actions_planned 中的任何行动匹配该数组中的类别:
+   → action_level 强制设为 min(action_level, ACT_NOTIFY)
+   → 即：即使用户信心满分，涉及 deploy/push/config_change 的操作必须通知用户
 ```
 
 ---

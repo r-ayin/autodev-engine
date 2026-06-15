@@ -71,10 +71,11 @@ def notify_via_tunnel(priority: str, title: str, message: str, config: dict) -> 
         sock.settimeout(timeout)
         sock.connect((host, port))
         sock.sendall(payload.encode("utf-8"))
-        sock.close()
         return True
     except (ConnectionRefusedError, socket.timeout, OSError):
         return False
+    finally:
+        sock.close()
 
 
 # ── 后端 2: ntfy.sh ──────────────────────────────
@@ -170,13 +171,13 @@ def send(title: str, message: str, reason: str, priority: str) -> bool:
         print(f"[NOTIFY] 去抖跳过 ({reason})", file=sys.stderr)
         return False
 
-    # 1. 首选 ntfy.sh（即时，无超时）
-    if notify_via_ntfy(priority, title, message, config):
+    # 1. 首选 TCP 隧道（本地，零第三方依赖）
+    if notify_via_tunnel(priority, title, message, config):
         save_debounce_ts()
         return True
 
-    # 2. 备选 TCP 隧道
-    if notify_via_tunnel(priority, title, message, config):
+    # 2. 备选 ntfy.sh
+    if notify_via_ntfy(priority, title, message, config):
         save_debounce_ts()
         return True
 

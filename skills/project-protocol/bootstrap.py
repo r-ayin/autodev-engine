@@ -11,13 +11,6 @@ SKILL_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(SKILL_DIR, "templates")
 WORKSPACE_ROOT = os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd())
 
-# 已知项目列表 — 不属于这些的就是"其他项目"
-# === USER: Add your project directory names here ===
-KNOWN_PROJECTS = {
-    # "my-project", "another-project",
-}
-
-
 def detect_project_info(project_dir: str, project_name: str) -> dict:
     """从项目目录已有文件探测技术栈和入口命令"""
     info = {
@@ -60,7 +53,7 @@ def detect_project_info(project_dir: str, project_name: str) -> dict:
             pass
 
     # 探测 requirements.txt / setup.py
-    if "requirements.txt" in files or "setup.py" in files:
+    elif "requirements.txt" in files or "setup.py" in files:
         info["tech_stack"] = "Python"
         if "docker-compose.yml" in files or "Dockerfile" in files:
             info["tech_stack"] += " + Docker"
