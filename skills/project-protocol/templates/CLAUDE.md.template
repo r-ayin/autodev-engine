@@ -1,0 +1,24 @@
+# {{PROJECT_NAME}}
+
+> 遵循工作区协议 [PROTOCOL.md](../PROTOCOL.md) | 由 project-protocol Skill 管理
+
+## 项目身份
+- **名称**：{{PROJECT_NAME}}
+- **目的**：<!-- TODO: 一句话描述项目目的 -->
+- **技术栈**：{{TECH_STACK}}
+- **入口**：{{ENTRY_CMD}}
+
+## 快速命令
+```bash
+cd {{PROJECT_DIR}}
+{{ENTRY_CMD}}              # 启动项目
+```
+
+## 项目规则
+<!-- TODO: 列出本项目特有的规则和注意事项 -->
+1.
+2.
+
+## 关联文件
+- [PROGRESS.md](./PROGRESS.md) — 进度追踪
+- [GATES.md](./GATES.md) — 质量门禁

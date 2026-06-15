@@ -1,0 +1,35 @@
+{
+  "$schema": "x-tool-decision-calibration/1.0",
+  "initialized": "2026-06-15T00:00:00Z",
+  "last_l3_check": "2026-06-15T00:00:00Z",
+  "patterns": {},
+  "l3_findings": {},
+  "user_preferences": {
+    "notification_channel": "wechat",
+    "autonomy_level": "moderate",
+    "preferred_tools": [
+      "Bash",
+      "Write",
+      "Edit",
+      "Grep"
+    ],
+    "avoid_autonomous": [
+      "deploy",
+      "push",
+      "config_change"
+    ],
+    "l1_direct_execute": true,
+    "settings_json_restore_ok": true,
+    "start_after_first_message": true
+  },
+  "global_stats": {
+    "total_autonomous_actions": 0,
+    "total_approved": 0,
+    "total_corrected": 0,
+    "overall_accuracy": 1.0
+  },
+  "cooldown": {
+    "max_consecutive_without_user": 3,
+    "current_consecutive": 0
+  }
+}

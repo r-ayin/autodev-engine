@@ -1,0 +1,24 @@
+# {{PROJECT_NAME}} — 进度追踪
+
+> 最后更新：{{TIMESTAMP}}
+
+## 状态
+<!-- STATUS: active -->
+
+## 当前任务
+<!-- TASK: 项目初始化 -->
+<!-- TASK_STATUS: in_progress -->
+
+## 变更历史
+| 时间 | 变更类型 | 描述 | Agent/人 |
+|------|---------|------|----------|
+| {{TIMESTAMP}} | 初始化 | project-protocol Skill 自举生成三件套 | Claude (自动) |
+
+## 已完成
+- [x] 项目三件套初始化
+
+## 待办
+<!-- TODO: 列出项目待办事项 -->
+
+## 阻塞项
+无

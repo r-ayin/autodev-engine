@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets & runtime state
+.env
+*.pem
+*.key
+*_token
+
+# Runtime state (not tracked, lives in host workspace)
+runtime/
+
+# Checkpoint artifacts
+*.checkpoint.json
+decision-log.jsonl
+
+# Phone notification state
+.last_phone_notify
+
+# Watchdog runtime markers
+.watchdog_heartbeat
+.watchdog_stale
+.watchdog_resume_needed
+.watchdog.lock
