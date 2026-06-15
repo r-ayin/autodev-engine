@@ -189,7 +189,8 @@ def write_session_context(session_id: str, data: dict):
 
 def handle_user_prompt_submit(data: dict):
     """UserPromptSubmit: 记录用户输入模式 + 会话隔离"""
-    prompt = data.get("user_prompt", "")
+    # Claude Code 传入的字段名可能是 "prompt" 或 "user_prompt"
+    prompt = data.get("prompt", "") or data.get("user_prompt", "") or data.get("message", "")
     session_id = data.get("session_id", "unknown")
 
     record = {
